@@ -46,3 +46,4 @@ context_audio.wav
 *.ckpt
 
 /finetuned_model
+model_first_test.safetensors

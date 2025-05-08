@@ -1,0 +1,17 @@
+[
+  {
+    "path": "\\data\\egri_csillagok_0000.wav",
+    "text": "Az erdőben jártak, patakra találtak. A nap tüzesen sütött. A víz tetszett nekik.",
+    "sampling_rate": 22050
+  },
+  {
+    "path": "\\data\\egri_csillagok_0001.wav",
+    "text": "Először csak a lábukat mártogatták bele, azután beleereszkedtek térdig. Gergelynek megvizesedett a gatyácskája, hát ledobta.",
+    "sampling_rate": 22050
+  },
+  {
+    "path": "\\data\\egri_csillagok_0002.wav",
+    "text": "Aztán az ingét is ledobta. Egyszer csak ott lubickol meztelenen mind a kettő. Fürödhetnek: nem látja ott őket senki.",
+    "sampling_rate": 22050
+  }
+]

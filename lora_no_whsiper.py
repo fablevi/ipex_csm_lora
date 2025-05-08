@@ -21,6 +21,7 @@ import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg') 
 import torch.nn as nn
+import json
 
 # Setup logging
 logging.basicConfig(
@@ -544,7 +545,40 @@ def transcribe_audio_files():
         except Exception as e:
             logger.error(f"Error transcribing {audio_file}: {e}")
     
-    logger.info(f"Transcribed {len(audio_text_pairs)} audio files")
+    logger.info(f"Transcribed {len(audio_text_pairs)} audio files, {audio_text_pairs}")
+    return audio_text_pairs
+
+def load_audio_files_with_text(): 
+    metadata_path = os.path.join(AUDIO_DIR, "metadata.json")
+    # Betöltés
+    logger.info(f"Search for json: {AUDIO_DIR}/metadata.json")
+    metadata = {}
+    try:
+        with open(metadata_path, "r", encoding="utf-8") as f:
+            metadata = json.load(f)
+    except FileNotFoundError:
+        logger.error(f"metadata.json not found at: {metadata_path}")
+        raise
+    except json.JSONDecodeError as e:
+        logger.error(f"Failed to parse metadata.json: {e}")
+        raise
+
+    audio_text_pairs = []
+
+    for item in metadata:
+        text = item["text"]
+        path = item["path"]
+        pair = AudioTextPair(
+            audio_path=AUDIO_DIR+path,
+            text=text,
+            #speaker_id=SPEAKER_ID,
+            speaker_id=0,
+            processed_audio=None
+        )
+        audio_text_pairs.append(pair)
+    
+    logger.info(f"Transcribed {len(audio_text_pairs)} audio files, {audio_text_pairs}")
+   
     return audio_text_pairs
 
 def prepare_csm_model_for_training():
@@ -1059,7 +1093,8 @@ def main():
         torch.backends.cudnn.benchmark = True
     
     model, text_tokenizer, audio_tokenizer = prepare_csm_model_for_training()
-    audio_text_pairs = transcribe_audio_files()
+    audio_text_pairs = load_audio_files_with_text()
+    #audio_text_pairs = transcribe_audio_files()
     if not audio_text_pairs:
         logger.error(f"No audio files found or transcribed in {AUDIO_DIR}")
         return

@@ -13,9 +13,11 @@ from lora import (
     DEVICE,
     OUTPUT_DIR,
 )
+OUTPUT_DIR = "finetuned_model/"
 MODEL_NAME = "sesame/csm-1b"
-R=32
-APLHA=64
+DEVICE = "xpu" if torch.xpu.is_available() else "cpu"
+R=8
+APLHA=16
 
 def find_latest_checkpoint(dir_path):
     checkpoints = [
